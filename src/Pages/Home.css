@@ -1,0 +1,116 @@
+/* Home.css - Estilo Pokémon */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background-color: #f0f0f0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4d4d4' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.text-center {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ff5350 0%, #ff7675 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 8px solid #3b4cca;
+  overflow: hidden;
+}
+
+.text-center::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  box-shadow: 0 0 0 12px #3b4cca, 0 0 0 13px #fff, 0 0 0 20px #3b4cca;
+}
+
+.text-4xl {
+  position: relative;
+  z-index: 1;
+  color: #ffde00;
+  font-size: 2.5rem;
+  text-shadow: 
+    3px 3px 0 #3b4cca,
+    -1px -1px 0 #3b4cca,
+    1px -1px 0 #3b4cca,
+    -1px 1px 0 #3b4cca,
+    1px 1px 0 #3b4cca;
+  margin-bottom: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.bg-red-500 {
+  position: relative;
+  z-index: 1;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  background-color: #ffde00;
+  color: #3b4cca !important;
+  border: 4px solid #3b4cca;
+  padding: 1rem 2rem !important;
+  border-radius: 4px;
+  box-shadow: 0 6px 0 #cc9700, 0 8px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  text-decoration: none !important;
+  display: inline-block;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.bg-red-500:hover {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 #cc9700, 0 6px 6px rgba(0, 0, 0, 0.3);
+  background-color: #ffd000;
+}
+
+.bg-red-500:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #cc9700, 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Animación de brillo para el título */
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.text-4xl {
+  background: linear-gradient(90deg, #ffde00, #fff, #ffde00);
+  background-size: 200% auto;
+  color: #ffde00;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 640px) {
+  .text-4xl {
+    font-size: 1.8rem;
+  }
+  
+  .text-center {
+    padding: 1.5rem;
+  }
+  
+  .bg-red-500 {
+    padding: 0.8rem 1.5rem !important;
+    font-size: 0.9rem;
+  }
+}
