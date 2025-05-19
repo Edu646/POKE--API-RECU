@@ -40,8 +40,8 @@ body {
   z-index: 1;
   color: #ffde00;
   font-size: 2.5rem;
-  text-shadow: 
-    3px 3px 0 #3b4cca,
+  text-shadow:
+     3px 3px 0 #3b4cca,
     -1px -1px 0 #3b4cca,
     1px -1px 0 #3b4cca,
     -1px 1px 0 #3b4cca,
@@ -51,7 +51,8 @@ body {
   letter-spacing: 2px;
 }
 
-.bg-red-500 {
+.bg-red-500,
+button.bg-red-500 {
   position: relative;
   z-index: 1;
   font-family: 'Press Start 2P', cursive;
@@ -69,13 +70,15 @@ body {
   text-transform: uppercase;
 }
 
-.bg-red-500:hover {
+.bg-red-500:hover,
+button.bg-red-500:hover {
   transform: translateY(2px);
   box-shadow: 0 4px 0 #cc9700, 0 6px 6px rgba(0, 0, 0, 0.3);
   background-color: #ffd000;
 }
 
-.bg-red-500:active {
+.bg-red-500:active,
+button.bg-red-500:active {
   transform: translateY(4px);
   box-shadow: 0 2px 0 #cc9700, 0 3px 3px rgba(0, 0, 0, 0.3);
 }
@@ -99,6 +102,42 @@ body {
   animation: shine 4s linear infinite;
 }
 
+/* Estilos para el mensaje de bienvenida del usuario */
+.text-lg {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 #3b4cca;
+  margin-bottom: 2rem;
+}
+
+.font-bold {
+  color: #ffde00;
+  font-weight: bold;
+}
+
+/* Estilos para el contenedor de botones */
+.flex {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
 /* Media query para dispositivos móviles */
 @media (max-width: 640px) {
   .text-4xl {
@@ -109,8 +148,27 @@ body {
     padding: 1.5rem;
   }
   
-  .bg-red-500 {
+  .bg-red-500,
+  button.bg-red-500 {
     padding: 0.8rem 1.5rem !important;
     font-size: 0.9rem;
+  }
+
+  .text-lg {
+    font-size: 0.9rem;
+  }
+}
+
+/* Media query para pantallas medianas */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .md\:flex-row {
+    flex-direction: row;
+  }
+}
+
+/* Media query para pantallas grandes */
+@media (min-width: 1025px) {
+  .md\:flex-row {
+    flex-direction: row;
   }
 }

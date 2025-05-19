@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './juego.css';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const Game = () => {
   const [cards, setCards] = useState([]);
@@ -8,6 +9,24 @@ const Game = () => {
   const [timer, setTimer] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [ranking, setRanking] = useState([]);
+  const [username, setUsername] = useState('');
+  const auth = getAuth();
+
+  // Obtener el usuario actualmente autenticado
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // El usuario está autenticado
+        setUsername(user.displayName || user.email || 'Usuario');
+      } else {
+        // No hay usuario autenticado
+        setUsername('Invitado');
+      }
+    });
+    
+    // Cleanup de la suscripción cuando el componente se desmonte
+    return () => unsubscribe();
+  }, [auth]);
 
   // Obtener 8 Pokémon aleatorios sin repetir
   const getShuffledPairs = () => {
@@ -66,13 +85,18 @@ const Game = () => {
   useEffect(() => {
     if (cards.length > 0 && cards.every(c => c.matched)) {
       setGameOver(true);
-      const score = { time: timer, moves, date: new Date().toLocaleString() };
+      const score = { 
+        username: username, 
+        time: timer, 
+        moves: moves, 
+        date: new Date().toLocaleString() 
+      };
       const saved = JSON.parse(localStorage.getItem('ranking')) || [];
       saved.push(score);
       localStorage.setItem('ranking', JSON.stringify(saved.sort((a, b) => a.time - b.time)));
       setRanking(saved);
     }
-  }, [cards]);
+  }, [cards, timer, moves, username]);
 
   const resetGame = () => {
     setMoves(0);
@@ -91,6 +115,7 @@ const Game = () => {
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">🧠 Juego de Parejas Pokémon</h1>
       <div className="mb-4 flex gap-4 items-center">
+        <p>👤 Jugador: {username}</p>
         <p>⏱️ Tiempo: {timer}s</p>
         <p>🎯 Movimientos: {moves}</p>
         <button
@@ -130,6 +155,7 @@ const Game = () => {
       {gameOver && (
         <div className="mt-6">
           <h2 className="text-xl font-bold">🏆 ¡Juego completado!</h2>
+          <p>Jugador: {username}</p>
           <p>Tu tiempo: {timer}s, Movimientos: {moves}</p>
         </div>
       )}
@@ -138,7 +164,9 @@ const Game = () => {
         <h2 className="text-xl font-bold mb-2">📊 Ranking</h2>
         <ul className="list-disc pl-5">
           {ranking.slice(0, 5).map((r, i) => (
-            <li key={i}>#{i + 1}: {r.time}s / {r.moves} movimientos ({r.date})</li>
+            <li key={i}>
+              #{i + 1}: {r.username || 'Anónimo'} - {r.time}s / {r.moves} movimientos ({r.date})
+            </li>
           ))}
         </ul>
       </div>
