@@ -7,6 +7,7 @@ import Poke from '../Pokemons/VerPokemons';
 import Home from '../Pages/Home';
 import NotFound from '../Pages/NotFound'; 
 import Juegos from '../Pokemons/juego';
+import Login from './login';
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/Poke" element={<Poke />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/juego" element={<Juegos/>}/>
+        <Route path='/Login' element={<Login/>}/>
       </Routes>
     </Router>
   );
