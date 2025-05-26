@@ -18,7 +18,7 @@ const AppRoutes = () => {
         <Route path="/Poke" element={<Poke />} />
         <Route path="*" element={<NotFound />} />
         <Route element={<rutas_privdas/>}>
-        <Route path="/juego" element={<Juegos/>}/>
+           <Route path="/juego" element={<Juegos/>}/>
         </Route>
         <Route path='/Login' element={<Login/>}/>
       </Routes>
