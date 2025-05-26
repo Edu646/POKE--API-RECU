@@ -6,7 +6,7 @@ export function rutas_privdas(){
 
     return(
 
-        auth ? <Outlet />:<Navigate to = "/Juego"/>
+        auth ? <Outlet />:<Navigate to = "/login" />
 
     )
 }
