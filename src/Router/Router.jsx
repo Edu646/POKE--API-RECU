@@ -8,6 +8,7 @@ import Home from '../Pages/Home';
 import NotFound from '../Pages/NotFound'; 
 import Juegos from '../Pokemons/juego';
 import Login from './login';
+import { rutas_privdas } from './Router_private';
 
 const AppRoutes = () => {
   return (
@@ -16,7 +17,9 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/Poke" element={<Poke />} />
         <Route path="*" element={<NotFound />} />
+        <Route element={<rutas_privdas/>}>
         <Route path="/juego" element={<Juegos/>}/>
+        </Route>
         <Route path='/Login' element={<Login/>}/>
       </Routes>
     </Router>
