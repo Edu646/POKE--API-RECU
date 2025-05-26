@@ -10,3 +10,4 @@ export function Rutas_privdas(){
 
     )
 }
+export default Rutas_privdas
