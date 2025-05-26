@@ -18,8 +18,14 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Configurar proveedores con scopes adicionales
   const googleProvider = new GoogleAuthProvider();
+  googleProvider.addScope('email');
+  googleProvider.addScope('profile');
+
   const githubProvider = new GithubAuthProvider();
+  githubProvider.addScope('user:email');
+  githubProvider.addScope('read:user');
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -69,7 +75,8 @@ const Login = () => {
     setError(null);
     
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log('Google auth successful:', result.user.email);
       navigate('/');
     } catch (err) {
       console.error("Error con Google:", err.code, err.message);
@@ -84,6 +91,9 @@ const Login = () => {
         case 'auth/account-exists-with-different-credential':
           setError('Ya existe una cuenta con este email usando otro método.');
           break;
+        case 'auth/cancelled-popup-request':
+          setError('Solicitud cancelada.');
+          break;
         default:
           setError('Error al autenticar con Google.');
       }
@@ -97,10 +107,12 @@ const Login = () => {
     setError(null);
     
     try {
-      await signInWithPopup(auth, githubProvider);
+      // Verificar que el proveedor esté configurado correctamente
+      const result = await signInWithPopup(auth, githubProvider);
+      console.log('GitHub auth successful:', result.user.email || result.user.displayName);
       navigate('/');
     } catch (err) {
-      console.error("Error con GitHub:", err.code, err.message);
+      console.error("Error con GitHub:", err);
       
       switch(err.code) {
         case 'auth/popup-closed-by-user':
@@ -112,8 +124,20 @@ const Login = () => {
         case 'auth/account-exists-with-different-credential':
           setError('Ya existe una cuenta con este email usando otro método.');
           break;
+        case 'auth/cancelled-popup-request':
+          setError('Solicitud cancelada.');
+          break;
+        case 'auth/invalid-credential':
+          setError('Error de configuración de GitHub. Verifica la configuración en Firebase Console.');
+          break;
+        case 'auth/unauthorized-domain':
+          setError('Dominio no autorizado. Configura tu dominio en Firebase Console.');
+          break;
+        case 'auth/operation-not-allowed':
+          setError('Autenticación con GitHub no habilitada. Actívala en Firebase Console.');
+          break;
         default:
-          setError('Error al autenticar con GitHub.');
+          setError(`Error al autenticar con GitHub: ${err.message || 'Error desconocido'}`);
       }
     } finally {
       setLoading(false);
