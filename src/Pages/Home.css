@@ -58,20 +58,7 @@ body {
   z-index: 0;
 }
 
-.text-center::after {
-  content: "";
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(circle, #ff6b6b 30%, #fff 31%, #fff 35%, #333 36%);
-  border-radius: 50%;
-  box-shadow: 
-    0 0 0 3px #333,
-    0 0 20px rgba(255, 107, 107, 0.5);
-  z-index: 1;
-}
+
 
 @keyframes rotate {
   0% {
