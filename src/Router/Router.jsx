@@ -17,9 +17,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/Poke" element={<Poke />} />
         <Route path="*" element={<NotFound />} />
-        <Route element={<Rutas_privdas/>}>
            <Route path="/juego" element={<Juegos/>}/>
-        </Route>
         <Route path='/Login' element={<Login/>}/>
       </Routes>
     </Router>
