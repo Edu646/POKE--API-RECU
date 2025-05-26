@@ -1,7 +1,7 @@
 import { Navigate ,Outlet} from "react-router-dom";
-export function rutas_privdas(){
+export function Rutas_privdas(){
 
-    let auth = true;
+    let auth = false;
 
 
     return(
