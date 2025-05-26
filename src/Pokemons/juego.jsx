@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './juego.css';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { getApp } from 'firebase/app';
 
 const TOTAL_PAIRS = 8;
 const POKEMON_COUNT = 898;
@@ -34,12 +36,31 @@ function Game() {
   const [ranking, setRanking] = useState([]);
   const username = useAuthUsername();
   const [timer, resetTimer] = useTimer(!gameOver);
+  const db = getFirestore(getApp());
 
   useEffect(() => {
     fetchPairs();
-    const saved = JSON.parse(localStorage.getItem('ranking')) || [];
-    setRanking(saved);
+    loadRanking();
   }, []);
+
+  const saveRanking = async (score) => {
+    try {
+      await addDoc(collection(db, 'rankings'), score);
+    } catch (error) {
+      console.error('Error guardando ranking:', error);
+    }
+  };
+
+  const loadRanking = async () => {
+    try {
+      const q = query(collection(db, 'rankings'), orderBy('time', 'asc'), limit(5));
+      const querySnapshot = await getDocs(q);
+      const data = querySnapshot.docs.map(doc => doc.data());
+      setRanking(data);
+    } catch (error) {
+      console.error('Error cargando ranking:', error);
+    }
+  };
 
   const fetchPairs = () => {
     const ids = [...new Set(Array.from({ length: TOTAL_PAIRS }, () => Math.floor(Math.random() * POKEMON_COUNT) + 1))];
@@ -75,9 +96,8 @@ function Game() {
     if (cards.length && cards.every(c => c.matched)) {
       setGameOver(true);
       const score = { username, time: timer, moves, date: new Date().toLocaleString() };
-      const updated = [...(JSON.parse(localStorage.getItem('ranking')) || []), score].sort((a, b) => a.time - b.time);
-      localStorage.setItem('ranking', JSON.stringify(updated));
-      setRanking(updated);
+      saveRanking(score);
+      loadRanking();
     }
   }, [cards]);
 
@@ -131,7 +151,7 @@ function Game() {
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-2">📊 Ranking</h2>
         <ul className="list-disc pl-5">
-          {ranking.slice(0, 5).map((r, i) => (
+          {ranking.map((r, i) => (
             <li key={i}>#{i + 1}: {r.username || 'Anónimo'} - {r.time}s / {r.moves} movimientos ({r.date})</li>
           ))}
         </ul>
